@@ -11,14 +11,14 @@ class InternTile extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(2),
-      height: 140,
-      child: ListTile(
-        title: Text(this.item.name),
-        subtitle: Column(
-            children: [Text(this.item.company), Text(this.item.location)]),
-        onTap: () => launch(item.link),
-      ),
-    );
+        padding: EdgeInsets.all(3),
+        child: ListTile(
+          title: Text(this.item.name, style: TextStyle(fontSize: 16)),
+          subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text(this.item.company), Text(this.item.location)]),
+          onTap: () => launch(item.link),
+        ),
+        decoration: BoxDecoration(border: Border(bottom: new BorderSide())));
   }
 }
