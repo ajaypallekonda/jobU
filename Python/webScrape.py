@@ -13,10 +13,14 @@ for job in jobs:
     title = job.find('h3', class_='result-card__title job-result-card__title')
     company = job.find('h4', class_='result-card__subtitle job-result-card__subtitle')
     location = job.find('span', class_='job-result-card__location')
+    date_posted = job.find('time', class_='job-result-card__listdate')
+    if None in (title, company, location, date_posted):
+        continue
 
     print(title.text)
     print(company.text)
     print(location.text)
+    print(date_posted.text)
 
     print()
 
