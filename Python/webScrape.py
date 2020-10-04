@@ -2,27 +2,40 @@
 import requests
 import bs4
 import json
+import re
 
-URL = 'https://www.linkedin.com/jobs/search/?geoId=103644278&keywords=intern&location=United%20States'
-page = requests.get(URL)
 
-soup = bs4.BeautifulSoup(page.content, 'html.parser')
+class WebScrape():
+    def run(self):
+        URL = 'https://www.linkedin.com/jobs/search/?geoId=103644278&keywords=intern&location=United%20States'
+        page = requests.get(URL)
 
-jobs = soup.find_all('li', attrs = {'class': 'result-card job-result-card result-card--with-hover-state'})
+        soup = bs4.BeautifulSoup(page.content, 'html.parser')
 
-data = []
+        jobs = soup.find_all('li', attrs = {'class': 'result-card'})
 
-for job in jobs:
-    title = job.find('h3', class_='result-card__title job-result-card__title')
-    company = job.find('h4', class_='result-card__subtitle job-result-card__subtitle')
-    location = job.find('span', class_='job-result-card__location')
+        data = []
 
-    data.append({
-        'name': title.text,
-        'company': company.text,
-        'location': location.text
-    })
+        for job in jobs:
+            title = job.find('h3', class_='result-card__title job-result-card__title')
+            company = job.find('h4', class_='result-card__subtitle job-result-card__subtitle')
+            location = job.find('span', class_='job-result-card__location')
+            date_posted = job.find('time', class_='job-result-card__listdate')
+            link = job.find('a', href=True)
 
-with open('C:/Users/ajayj/Desktop/Github/jobU/JSONWebServer/internships.json', 'w') as outfile:
-    json.dump(data, outfile)
+            if None in (title, company, location, date_posted):
+                continue
+
+            if link.has_attr('href'):
+                link = link['href']
+
+            data.append({
+                'name': title.text,
+                'company': company.text,
+                'location': location.text,
+                'link': link
+            })
+
+        with open('C:/Users/ajayj/Desktop/Github/jobU/JSONWebServer/internships.json', 'w') as outfile:
+            json.dump(data, outfile)
 

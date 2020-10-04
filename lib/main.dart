@@ -12,8 +12,8 @@ void main() {
   }
 
   Future<List<Internship>> fetchInternships() async {
-    final response =
-        await http.get('http://192.168.198.1:8000/internships.json');
+    final response = await http
+        .get('http://10.0.2.2:5000/', headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
       return parseInternships(response.body);
     } else {

@@ -17,7 +17,7 @@ class InternTile extends StatelessWidget {
         title: Text(this.item.name),
         subtitle: Column(
             children: [Text(this.item.company), Text(this.item.location)]),
-        onTap: () => launch('https://google.com/'),
+        onTap: () => launch(item.link),
       ),
     );
   }
