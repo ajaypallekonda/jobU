@@ -10,6 +10,9 @@ class HelloWorld(Resource):
     def get(self):
         webscraper = WebScrape()
         webscraper.run()
+        with open('../JSONWebServer/internships.json') as f:
+            data = json.load(f)
+        return data
 
 api.add_resource(HelloWorld, '/')
 

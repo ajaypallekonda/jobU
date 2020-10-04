@@ -6,7 +6,24 @@ import 'package:http/http.dart' as http;
 import 'models/internship.dart';
 
 void main() {
-  runApp(MyApp());
+  List<Internship> parseInternships(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Internship>((json) => Internship.fromJson(json)).toList();
+  }
+
+  Future<List<Internship>> fetchInternships() async {
+    final response = await http
+        .get('http://10.0.2.2:5000/', headers: {"Accept": "application/json"});
+    if (response.statusCode == 200) {
+      return parseInternships(response.body);
+    } else {
+      throw Exception('Unable to fetch internships from the REST API');
+    }
+  } // This widget is the root of your application.
+
+  runApp(MyApp(
+    internships: fetchInternships(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

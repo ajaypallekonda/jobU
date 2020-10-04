@@ -21,17 +21,21 @@ class WebScrape():
             company = job.find('h4', class_='result-card__subtitle job-result-card__subtitle')
             location = job.find('span', class_='job-result-card__location')
             date_posted = job.find('time', class_='job-result-card__listdate')
-    
+            link = job.find('a', href=True)
+
             if None in (title, company, location, date_posted):
                 continue
+
+            if link.has_attr('href'):
+                link = link['href']
 
             data.append({
                 'name': title.text,
                 'company': company.text,
                 'location': location.text,
-                
+                'link': link
             })
 
-        with open('C:/Users/ajayj/Desktop/Github/jobU/JSONWebServer/internships.json', 'w') as outfile:
+        with open('../JSONWebServer/internships.json', 'w') as outfile:
             json.dump(data, outfile)
 
