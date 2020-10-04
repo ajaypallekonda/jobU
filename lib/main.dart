@@ -12,7 +12,8 @@ void main() {
   }
 
   Future<List<Internship>> fetchInternships() async {
-    final response = await http.get('http://192.168.1.2:8000/internships.json');
+    final response =
+        await http.get('http://192.168.198.1:8000/internships.json');
     if (response.statusCode == 200) {
       return parseInternships(response.body);
     } else {
@@ -33,9 +34,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'jobU',
+      title: 'jobU.',
       theme: ThemeData.light(),
-      home: Home(title: "jobU"),
+      home: Home(
+        title: "jobU.",
+        internships: internships,
+      ),
     );
   }
 }
