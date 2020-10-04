@@ -1,9 +1,22 @@
+# Importing Requests(HTML) and Beautiful Soup(Web Scraper)
 import requests
 import bs4
 
-URL = 'https://www.google.com/search?q=software+engineering+internships&rlz=1C5CHFA_enUS874US874&oq=software+engineering+internships&aqs=chrome.0.69i59j35i39j0l3j69i60l3.3898j0j1&sourceid=chrome&ie=UTF-8&ibp=htl;jobs&sa=X&ved=2ahUKEwjJ0OWe1ZnsAhUkHDQIHZnAAcYQiYsCKAB6BAgdEAQ&sxsrf=ALeKk00Ug5rHogEEPi9xF7QgiBtJMvSXVQ:1601770805102#htivrt=jobs&htidocid=QL3rbbH0p7CLYJgiAAAAAA%3D%3D&fpstate=tldetail'
+URL = 'https://www.linkedin.com/jobs/search/?geoId=103644278&keywords=intern&location=United%20States'
 page = requests.get(URL)
 
 soup = bs4.BeautifulSoup(page.content, 'html.parser')
 
-print(21)
+jobs = soup.find_all('li', attrs = {'class': 'result-card job-result-card result-card--with-hover-state'})
+
+for job in jobs:
+    title = job.find('h3', class_='result-card__title job-result-card__title')
+    company = job.find('h4', class_='result-card__subtitle job-result-card__subtitle')
+    location = job.find('span', class_='job-result-card__location')
+
+    print(title.text)
+    print(company.text)
+    print(location.text)
+
+    print()
+
